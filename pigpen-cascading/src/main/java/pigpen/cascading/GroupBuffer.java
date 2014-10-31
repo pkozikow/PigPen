@@ -6,7 +6,6 @@ import java.util.List;
 
 import clojure.lang.IFn;
 import clojure.lang.ISeq;
-import clojure.lang.IteratorSeq;
 import clojure.lang.LazySeq;
 import clojure.lang.PersistentVector;
 
@@ -87,6 +86,6 @@ public class GroupBuffer extends BaseOperation implements Buffer {
   }
 
   private ISeq wrapIterator(Iterator iterator) {
-    return IteratorSeq.create(new BufferIterator(iterator));
+    return SinglePassIteratorSeq.create(new BufferIterator(iterator));
   }
 }
