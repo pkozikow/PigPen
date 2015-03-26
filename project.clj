@@ -14,6 +14,7 @@
                  [org.apache.hadoop/hadoop-core "1.1.2"]]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
                                   [org.apache.pig/pig "0.13.0"]]}}
+  :aot :all
   :source-paths ["pigpen-local/src/main/clojure"
                  "pigpen-core/src/main/clojure"
                  "pigpen-cascading/src/main/clojure"]
