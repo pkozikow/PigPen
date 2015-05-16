@@ -1,6 +1,6 @@
 ;;
 ;;
-;;  Copyright 2013-2015 Netflix, Inc.
+;;  Copyright 2015 Netflix, Inc.
 ;;
 ;;     Licensed under the Apache License, Version 2.0 (the "License");
 ;;     you may not use this file except in compliance with the License.
@@ -16,21 +16,22 @@
 ;;
 ;;
 
-(ns pigpen.pig.functional-test
-  (:require [clojure.test :refer :all]
-            [schema.test]
-            [pigpen.pig.test-harness :refer [pig-harness]]
-            [pigpen.functional-suite :refer [def-functional-tests]]))
+(ns pigpen.local.test-harness
+  (:require [pigpen.functional-test :as t :refer [TestHarness]]
+            [pigpen.core :as pig]))
 
-(use-fixtures :once schema.test/validate-schemas)
-
-(def prefix "build/functional/pig/")
-
-(.mkdirs (java.io.File. prefix))
-
-(def-functional-tests "pig"
-  (pig-harness prefix)
-
-  ; Pending https://issues.apache.org/jira/browse/PIG-4298
-  #{pigpen.functional.map-test/test-sort-desc
-    pigpen.functional.map-test/test-sort-by-desc})
+(defn local-harness [prefix]
+  (reify TestHarness
+    (data [this data]
+      (pig/return data))
+    (dump [this command]
+      (pig/dump command))
+    (file [this]
+      (str prefix (gensym)))
+    (read [this file]
+      (clojure.string/split-lines
+        (slurp file)))
+    (write [this lines]
+      (let [file (t/file this)]
+        (spit file (clojure.string/join "\n" lines))
+        file))))

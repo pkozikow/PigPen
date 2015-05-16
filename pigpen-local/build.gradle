@@ -1,4 +1,0 @@
-dependencies {
-    compile project(':pigpen-core')
-    testCompile project(':pigpen-tests')
-}

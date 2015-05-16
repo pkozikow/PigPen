@@ -2,14 +2,15 @@ apply plugin: 'java'
 
 dependencies {
     compile project(':pigpen')
-    testCompile project(':pigpen-tests')
+    compile project(':pigpen-hadoop')
 
     compile 'joda-time:joda-time:2.4' // pig needs this to run locally
-    compile 'org.clojure:core.async:0.1.267.0-0d7780-alpha'
+    compile 'org.clojure:core.async:0.1.346.0-17112a-alpha'
 
     provided 'org.apache.pig:pig:0.13.0'
     provided 'org.apache.hadoop:hadoop-core:1.1.2'
 
+    testCompile project(path: ':pigpen', configuration: 'testOutput')
     testCompile 'org.apache.pig:pigunit:0.13.0'
     testCompile 'jline:jline:0.9.94'
     testCompile 'org.antlr:antlr:3.5.2'
@@ -17,4 +18,17 @@ dependencies {
 
 test {
     jvmArgs += [ "-XX:MaxPermSize=512m" ]
+}
+
+configurations {
+    testOutput.extendsFrom (testCompile)
+}
+
+task jarTest (type: Jar, dependsOn: testClasses) {
+    from sourceSets.test.clojure.srcDirs
+    classifier = 'test'
+}
+
+artifacts {
+    testOutput jarTest
 }
