@@ -13,7 +13,8 @@
                  [org.slf4j/slf4j-log4j12 "1.6.1"]
                  [org.apache.hadoop/hadoop-core "1.1.2"]]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
-                                  [org.apache.pig/pig "0.13.0"]]}}
+                                  [org.apache.pig/pig "0.13.0"]
+                                  [criterium/criterium "0.4.3"]]}}
   :javac-options ["-target" "1.6" "-source" "1.6"]
   :aot :all
   :source-paths ["pigpen-local/src/main/clojure"
