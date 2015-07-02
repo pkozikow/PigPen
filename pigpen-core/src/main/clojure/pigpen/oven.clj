@@ -147,7 +147,7 @@ number of optimizations and transforms to the graph.
   [mapping commands]
   (map (fn [c] (update-ids c mapping)) commands))
 
-(defn ^:private dedupe
+(defn ^:private deduplicate
   "Collapses duplicate commands in a graph. The strategy is to take the set of
    distinct commands, find the first two that can be merged, and merge them to
    produce graph'. Rinse & repeat until there are no more duplicate commands."
@@ -332,7 +332,7 @@ number of optimizations and transforms to the graph.
 (defn default-operations []
   {debug               0
    braise              1
-   dedupe              2
+   deduplicate         2
    optimize-binds      3
    alias-self-joins    4
    clean               5

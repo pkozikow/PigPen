@@ -146,7 +146,7 @@
       (test-diff
         (->> (pig-io/store-many s1 s2)
           (#'pigpen.oven/braise {})
-          (#'pigpen.oven/dedupe {})
+          (#'pigpen.oven/deduplicate {})
           (map #(select-keys % [:type :id :ancestors])))
         ;; Should merge the load commands
         '[{:type :load,       :id load3}
@@ -187,7 +187,7 @@
                      (pig-map/map identity)
                      (pig-io/store-clj "out")
                      (#'pigpen.oven/braise {})
-                     (#'pigpen.oven/dedupe {})))
+                     (#'pigpen.oven/deduplicate {})))
 
       ^:local s1 (with-redefs [pigpen.raw/pigsym (pigsym-inc)]
                    (->>
@@ -197,7 +197,7 @@
                      (pig-map/mapcat vector)
                      (pig-io/store-clj "out")
                      (#'pigpen.oven/braise {})
-                     (#'pigpen.oven/dedupe {})))
+                     (#'pigpen.oven/deduplicate {})))
 
       ^:local s2 (with-redefs [pigpen.raw/pigsym (pigsym-inc)]
                    (let [p0 (->>
@@ -217,7 +217,7 @@
                      (->>
                        (pig-io/store-many p1 p2)
                        (#'pigpen.oven/braise {})
-                       (#'pigpen.oven/dedupe {}))))
+                       (#'pigpen.oven/deduplicate {}))))
 
       ^:local s3 (with-redefs [pigpen.raw/pigsym (pigsym-inc)]
                    (let [p0 (->>
@@ -234,7 +234,7 @@
                        (pig-filter/filter (constantly true))
                        (pig-io/store-clj "out")
                        (#'pigpen.oven/braise {})
-                       (#'pigpen.oven/dedupe {}))))]
+                       (#'pigpen.oven/deduplicate {}))))]
 
   (deftest test-find-bind-sequence
     (testing "s0"
