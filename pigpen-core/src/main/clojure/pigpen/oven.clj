@@ -21,7 +21,7 @@
 graph. This is required for local execution or script generation. Applies a
 number of optimizations and transforms to the graph.
 "
-  (:refer-clojure :exclude [ancestors])
+  (:refer-clojure :exclude [ancestors dedup])
   (:require [clojure.set]
             [pigpen.raw :as raw]
             [pigpen.code :as code]))
@@ -147,7 +147,7 @@ number of optimizations and transforms to the graph.
   [mapping commands]
   (map (fn [c] (update-ids c mapping)) commands))
 
-(defn ^:private deduplicate
+(defn ^:private dedup
   "Collapses duplicate commands in a graph. The strategy is to take the set of
    distinct commands, find the first two that can be merged, and merge them to
    produce graph'. Rinse & repeat until there are no more duplicate commands."
@@ -332,7 +332,7 @@ number of optimizations and transforms to the graph.
 (defn default-operations []
   {debug               0
    braise              1
-   deduplicate         2
+   dedup               2
    optimize-binds      3
    alias-self-joins    4
    clean               5
