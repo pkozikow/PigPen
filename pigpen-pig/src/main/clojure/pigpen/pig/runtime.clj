@@ -61,7 +61,7 @@ possible as it's used at runtime."
     (.add tuple)))
 
 (defn ^:private pig-freeze [value]
-  (DataByteArray. (freeze value {:skip-header? true, :legacy-mode true})))
+  (DataByteArray. (freeze value {:compressor nil, :skip-header? true})))
 
 (defn ^:private pig-freeze-with-nils [value]
   (if-not (nil? value)
@@ -89,11 +89,6 @@ possible as it's used at runtime."
   [b]
   (clojure.string/join (mapv #(format "%02X" %) b)))
 
-(defn bytes->json
-  "Convert bytes into a string & then parses json"
-  [b]
-  (if b (json/read-json (String. (bytes b)))))
-
 (defn cast-bytes
   "Converts a byte array into the specified type. Similar to a cast in pig."
   [type value]
@@ -110,7 +105,11 @@ possible as it's used at runtime."
 (extend-protocol HybridToClojure
   DataByteArray
   (rt/hybrid->clojure [^DataByteArray value]
-    (-> value (.get) thaw))
+    (-> value
+      (.get)
+      (thaw {:compressor nil
+             :encryptor  nil
+             :v1-compatibility? false})))
   Tuple
   (rt/hybrid->clojure [^Tuple value]
     (->> value (.getAll) (mapv rt/hybrid->clojure)))
