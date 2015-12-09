@@ -2,11 +2,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :repositories [["conjars" "http://conjars.org/repo"]]
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/data.json "0.2.5"]
                  [org.clojure/data.csv "0.1.2"]
                  [joda-time/joda-time "2.4"]
-                 [com.taoensso/nippy "2.8.0"]
+                 [com.taoensso/nippy "2.10.0"]
                  [prismatic/schema "0.3.3"]
                  [cascading/cascading-core "2.5.1"]
                  [cascading/cascading-hadoop "2.5.1"]
